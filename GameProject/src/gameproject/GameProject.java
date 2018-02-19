@@ -24,29 +24,22 @@ import javafx.stage.Stage;
  */
 public class GameProject extends Application {
     double speed = 10;
+    double windowWidth = 1000,
+            windowHeight = 600;
     Rectangle rect;
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, windowWidth, windowHeight);
         Image image = new Image("sorcerer.png");
-        Player one = new Player(image,100,100, root);
+        Player one = new Player(image,100,100, root, windowWidth, windowHeight);
         one.setScaleX(2);
         one.setScaleY(2);
-        rect = new Rectangle(one.xx, one.yy, image.getWidth(), image.getHeight());
-        rect.setFill(Color.BLACK);
+        
         one.setActionImage("sorcererGIF.gif");
         PlayerController r = new PlayerController(one, 0, scene);
-        new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                rect.setX(one.xx);
-                rect.setY(one.yy);
-                System.out.println(one.getFitHeight() + "  " + one.getFitWidth());
-            }
-        }.start();
-                
-        root.getChildren().add(rect);
+       
+        root.getChildren().add(one.rect);
         one.toFront();
         
         primaryStage.setTitle("Game - in progress");

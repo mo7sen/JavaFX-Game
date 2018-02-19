@@ -17,7 +17,7 @@ import javafx.scene.shape.Rectangle;
 public class PlayerController 
 {
     double speed;
-    boolean moveUp, moveDown, moveRight, moveLeft;
+    boolean moveUp, moveDown, moveRight, moveLeft, firing;
     public PlayerController(Player player, int playerNum, Scene scene)
     {
         speed = 1;
@@ -26,16 +26,19 @@ public class PlayerController
             switch(event.getCode())
             {
                 case UP:
-                    moveUp = true;
+                    player.shiftUp();
                     break;
                 case DOWN:
-                    moveDown = true;
+                    player.shiftDown();
                     break;
                 case LEFT:
                     moveLeft = true;
                     break;
                 case RIGHT:
                     moveRight = true;
+                    break;
+                case SPACE:
+                    firing = true;
                     break;
                 default:
             }
@@ -47,7 +50,6 @@ public class PlayerController
                     moveUp = false;
                     break;
                 case DOWN:
-                    moveDown = false;
                     break;
                 case LEFT:
                     moveLeft = false;
@@ -56,7 +58,7 @@ public class PlayerController
                     moveRight = false;
                     break;
                 case SPACE:
-                    player.act();
+                    firing = false;
                     break;
                 default:
             }
@@ -73,6 +75,14 @@ public class PlayerController
                     player.changeX(speed);
                 if(moveLeft)
                     player.changeX(-speed);
+                if(firing)
+                {
+                    if(now > player.lastFired + player.fireDelay)
+                    {
+                        player.act();
+                        player.lastFired = now;
+                    }
+                }
                 
             }
         }.start();
