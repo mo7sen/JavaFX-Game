@@ -37,13 +37,7 @@ public class ObjectImage extends ImageView
        this.setY(posY);
        root.getChildren().add(this);
        
-       new AnimationTimer() {
-           @Override
-           public void handle(long now) {
-               bound = new BoundingBox(xx, yy, image.getWidth(), image.getHeight());
-              
-           }
-       }.start();
+       
        
     }
     
