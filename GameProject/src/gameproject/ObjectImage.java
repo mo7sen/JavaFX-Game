@@ -1,44 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gameproject;
 
-
-import javafx.animation.AnimationTimer;
 import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-/**
- *
- * @author Robear
- */
 public class ObjectImage extends ImageView
 {
     ImageView imageView;
     BoundingBox bound;
-    Rectangle rect = new Rectangle();
+    Rectangle rect;
     double xx, yy;
+    
     public ObjectImage(Image image, double posX, double posY, Group root)
     {
-       this.setImage(image);
-       
-       xx = posX;
-       yy = posY;
-       this.setX(posX);
-       this.setY(posY);
-       root.getChildren().add(this);
-       
-       
-       
+        this.setSmooth(true);
+        this.setImage(image);
+
+        xx = posX;
+        yy = posY;
+        this.setX(posX);
+        this.setY(posY);
+        root.getChildren().add(this);
+        rect = new Rectangle(posX, posY, image.getWidth(), image.getHeight());
+        
+        root.getChildren().add(rect);
     }
     
     public void reset()
@@ -50,12 +37,14 @@ public class ObjectImage extends ImageView
     public void changeX(double changeAmount)
     {
         xx += changeAmount;
+        rect.setX(xx);
         this.setX(xx);
     }
     
     public void changeY(double changeAmount)
     {
         yy += changeAmount;
+        rect.setY(yy);
         this.setY(yy);
     }
 }

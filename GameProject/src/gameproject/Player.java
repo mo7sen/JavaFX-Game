@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gameproject;
 
 import javafx.animation.AnimationTimer;
@@ -12,58 +7,76 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-/**
- *
- * @author Robear
- */
 public class Player extends ObjectImage
 {
-    AnimationTimer movingUp, movingDown;
-    int health = 4;
-    String actionGif;
-    double initialY,
-            initialX,
-            posChange = 100,
-            windowWidth,
-            windowHeight,
-            shiftSpeed = 10;
-    double[] supportedY = new double[5];
-    double fireRate = 0.33; // delay in seconds
+    //==========================================================================
+    int health = 4,             // Health value
+        direction;              // Direction the player is facing
+    //==========================================================================
+    Image staticImage,                                                        
+          projectileImage;                                                    
+    //==========================================================================
+    String animatedImage;
+    //==========================================================================
+    double posChange = 100,     // (Distance between tiles / lanes)
+           windowWidth,     
+           windowHeight,
+           shiftSpeed = 10,     // Speed at which the player chages lanes
+           scale,               // Scale of the player and the projectile with respect to the original images
+           fireRate = 0.25;     // delay in seconds
+    //==========================================================================
+    double[] supportedY = new double[5];                                      
+    //==========================================================================
     long lastFired = 0,
-    fireDelay = (long)(fireRate * 1000000000); // converting the delay to nanoseconds
-    Group root;
+         fireDelay = (long)(fireRate * 1000000000);     // converting the delay to nanoseconds
+    //==========================================================================
+    Group root;                 // root node
+    //==========================================================================
     
-    public Player(Image image, double posX, double posY, Group root, double windowWidth, double windowHeight) 
+    public Player(Image staticImage, String animatedImage, Image projectileImage, double posX, double posY, Group root, int direction, double scale, double windowWidth) 
     {
-        super(image, posX, posY, root);
+        super(staticImage, posX, posY, root);
         
         this.windowWidth = windowWidth;
-        this.windowHeight = windowHeight;
         this.root = root;
-        
-        initialY = windowHeight/2 - 30;
-        initialX = 30;
+        this.direction = direction;
+        this.scale = scale;
+        this.setScaleX(direction * scale) ;
+        this.setScaleY(scale);
+        this.staticImage = staticImage;
+        this.animatedImage = animatedImage;
+        this.projectileImage = projectileImage;
         
         for(int i = 0; i < supportedY.length; i++)
         {
             int j = i-2;
-            supportedY[i] = initialY + posChange * j;
+            supportedY[i] = posY + posChange * j;
         }
         
-        xx = initialX;
-        yy = initialY;
-        
-        this.setY(initialY);
-        this.setX(initialX);
-        
-        bound = new BoundingBox(this.xx, this.yy, image.getWidth(), image.getHeight());
+        bound = new BoundingBox(this.xx, this.yy, staticImage.getWidth(), staticImage.getHeight());
         
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                bound = new BoundingBox(Player.this.xx, Player.this.yy, image.getWidth(), image.getHeight());
+                bound = new BoundingBox(Player.this.xx, Player.this.yy, staticImage.getWidth(), staticImage.getHeight());
             }
         }.start();
+    }
+    
+    public int getHealth()
+    {
+        return health;
+    }
+    
+    public void damageTaken()
+    {
+        health--;
+        this.hurt();
+    }
+    
+    public void hurt()
+    {
+        
     }
     
     public boolean isDead()
@@ -71,17 +84,10 @@ public class Player extends ObjectImage
         return (health == 0);
     }
     
-    public void setActionImage(String action)
-    {
-        actionGif = action;
-    }
-    
     public void act()
     {
-        this.setImage(new Image(actionGif));
-        Projectiles fireball = new Projectiles(new Image("fireball.png"), xx, yy, 1, 0, 30, 15, 10, 0, root);
-        fireball.setScaleX(2);
-        fireball.setScaleY(2);
+        this.setImage(new Image(animatedImage));
+        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 10, 0, root, windowWidth, scale);
     }
     
     public void shiftDown()
@@ -92,9 +98,7 @@ public class Player extends ObjectImage
             if(supportedY[i] == yy && i < supportedY.length - 1)
             {
                 double nextY = supportedY[i+1];
-                if(movingUp != null)
-                    movingUp.stop();
-                movingDown = new AnimationTimer() {
+                new AnimationTimer() {
                     @Override
                     public void handle(long now) {
                         double y = yy;
@@ -102,9 +106,12 @@ public class Player extends ObjectImage
                         {
                             Player.this.changeY(shiftSpeed);
                         }
+                        else if(y == nextY) 
+                        {
+                        this.stop() ;
+                       } 
                     }
-                };
-                movingDown.start();
+                }.start();
                 break;
             }         
         }
@@ -118,9 +125,7 @@ public class Player extends ObjectImage
             if(supportedY[i] == yy && i > 0)
             {
                 double nextY = supportedY[i-1];
-                if(movingDown != null)
-                    movingDown.stop();
-                movingUp = new AnimationTimer() {
+                new AnimationTimer() {
                     @Override
                     public void handle(long now) {
                         double y = yy;
@@ -128,9 +133,12 @@ public class Player extends ObjectImage
                         {
                             Player.this.changeY(-shiftSpeed);
                         }
+                        else if(y == nextY) 
+                        {
+                            this. stop() ;
+                        } 
                     }
-                };
-                movingUp.start();
+                }.start();
                 break;
             }          
         }

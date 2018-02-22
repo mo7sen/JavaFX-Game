@@ -1,91 +1,87 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gameproject;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.input.KeyCode;
 
-/**
- *
- * @author Robear
- */
 public class PlayerController 
 {
-    double speed;
-    boolean moveUp, moveDown, moveRight, moveLeft, firing;
-    public PlayerController(Player player, int playerNum, Scene scene)
+    boolean firing1, firing2, playerOneExists, playerTwoExists;
+    Player playerOne, playerTwo;
+    Scene scene;
+    
+    public PlayerController(Scene scene)
     {
-        speed = 1;
-        
-        scene.setOnKeyPressed((event) -> {
-            switch(event.getCode())
-            {
-                case UP:
-                    player.shiftUp();
-                    break;
-                case DOWN:
-                    player.shiftDown();
-                    break;
-                case LEFT:
-                    moveLeft = true;
-                    break;
-                case RIGHT:
-                    moveRight = true;
-                    break;
-                case SPACE:
-                    firing = true;
-                    break;
-                default:
-            }
-        });
-        scene.setOnKeyReleased((event) -> {
-            switch(event.getCode())
-            {
-                case UP:
-                    moveUp = false;
-                    break;
-                case DOWN:
-                    break;
-                case LEFT:
-                    moveLeft = false;
-                    break;
-                case RIGHT:
-                    moveRight = false;
-                    break;
-                case SPACE:
-                    firing = false;
-                    break;
-                default:
-            }
-        });
+        this.scene = scene;
         
         new AnimationTimer() {
             @Override
-            public void handle(long now) {
-                if(moveUp)
-                    player.changeY(-speed);
-                if(moveDown)
-                    player.changeY(speed);
-                if(moveRight)
-                    player.changeX(speed);
-                if(moveLeft)
-                    player.changeX(-speed);
-                if(firing)
+            public void handle(long now) 
+            {
+                if(firing1)
                 {
-                    if(now > player.lastFired + player.fireDelay)
+                    if(now > playerOne.lastFired + playerOne.fireDelay)
                     {
-                        player.act();
-                        player.lastFired = now;
+                        playerOne.act();
+                        playerOne.lastFired = now;
                     }
                 }
-                
+                if(firing2)
+                {
+                    if(now > playerTwo.lastFired + playerTwo.fireDelay)
+                    {
+                        playerTwo.act();
+                        playerTwo.lastFired = now;
+                    }
+                }
             }
-        }.start();
-        
+        }.start();   
+    }
+
+    public void setPlayerOne(Player playerOne)
+    {
+	this. playerOne = playerOne;
+	playerOneExists = true;
+    }
+		
+    public void setPlayerTwo(Player playerTwo)
+    {
+	this. playerTwo = playerTwo;
+	playerTwoExists = true;
+    }
+               
+    public void setControls() 
+    {
+        scene.setOnKeyPressed((event) -> 
+            {
+                if(playerOneExists) 
+                {
+                    if(event. getCode() == KeyCode. UP) 
+                        playerOne.shiftUp();
+                    if(event. getCode() == KeyCode. DOWN)
+                        playerOne.shiftDown();
+                    if(event. getCode() == KeyCode. P) 
+                        firing1 = true;
+                } 
+               
+                if(playerTwoExists) 
+                {
+                    if(event. getCode() == KeyCode. W) 
+                        playerTwo. shiftUp();
+                    if(event. getCode() == KeyCode. S)
+                	playerTwo. shiftDown();
+                    if(event. getCode() == KeyCode. G) 
+                	firing2 = true;
+                } 
+       
+            });
+            
+        scene.setOnKeyReleased((event) -> 
+        {
+            if(event.getCode() == KeyCode.P)
+                firing1 = false;
+            if(event.getCode() == KeyCode.G)
+                firing2 = false;
+        });
     }
 }
