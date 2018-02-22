@@ -4,7 +4,7 @@ A simple game created with JavaFX.
 Things to do:
 
 - [x] Setup the movement of the character
--- **Bugs in movement still need to be fixed**
+- [x] Setup the shooting animation and texture of the projectiles
 - [ ] Make and add textures for the enemies
 - [ ] Setup the BoundingBox(es), collider, of the player, projectiles and enemies
 - [ ] Make and add textures of the background
