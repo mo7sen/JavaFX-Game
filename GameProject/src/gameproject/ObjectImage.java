@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 public class ObjectImage extends ImageView
 {
     ImageView imageView;
-    BoundingBox bound;
+    Bounder bound;
     Rectangle rect;
     double xx, yy;
     
@@ -23,9 +23,7 @@ public class ObjectImage extends ImageView
         this.setX(posX);
         this.setY(posY);
         root.getChildren().add(this);
-        rect = new Rectangle(posX, posY, image.getWidth(), image.getHeight());
-        
-        root.getChildren().add(rect);
+        bound = new Bounder(posX, posY, image.getWidth(), image.getHeight());
     }
     
     public void reset()
@@ -37,14 +35,14 @@ public class ObjectImage extends ImageView
     public void changeX(double changeAmount)
     {
         xx += changeAmount;
-        rect.setX(xx);
+        bound.setX(xx);
         this.setX(xx);
     }
     
     public void changeY(double changeAmount)
     {
         yy += changeAmount;
-        rect.setY(yy);
+        bound.setY(yy);
         this.setY(yy);
     }
 }

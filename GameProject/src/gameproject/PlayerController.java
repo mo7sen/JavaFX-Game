@@ -41,12 +41,14 @@ public class PlayerController
     public void setPlayerOne(Player playerOne)
     {
 	this. playerOne = playerOne;
+        Projectiles.playerOne = playerOne.bound;
 	playerOneExists = true;
     }
 		
     public void setPlayerTwo(Player playerTwo)
     {
 	this. playerTwo = playerTwo;
+        Projectiles.playerTwo = playerTwo.bound;
 	playerTwoExists = true;
     }
                

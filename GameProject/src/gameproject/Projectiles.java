@@ -3,13 +3,13 @@ package gameproject;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Rectangle;
 
 public class Projectiles extends ObjectImage{
     
+    public static Bounder playerOne, playerTwo;
     double offsetX, offsetY, speedX, speedY, windowWidth;
     int directionX, directionY;
-    Rectangle rect;
+    
     public Projectiles(Image image, double posX, double posY, int directionX, int directionY, double offsetX, double offsetY, double speedX, double speedY, Group root, double windowWidth, double scale) 
     {
         super(image, posX + offsetX * directionX, posY + offsetY *directionY, root);
@@ -25,7 +25,7 @@ public class Projectiles extends ObjectImage{
         this.animate();
     }
     
-    void animate()
+    private void animate()
     {
         new AnimationTimer() {
             @Override
@@ -34,7 +34,17 @@ public class Projectiles extends ObjectImage{
                 Projectiles.this.changeX(directionX * speedX);
                 Projectiles.this.changeY(directionY * speedY);
                 
-                if(Projectiles.this.getX() > windowWidth)
+                if(Projectiles.this.getX() > windowWidth )
+                {
+                    this.stop();
+                }
+                
+                if(Projectiles.this.bound.intersects(playerTwo))
+                {
+                    //System.out.println("player two hit");
+                }
+                
+                if(Projectiles.this.bound.intersects(playerOne))
                 {
                     this.stop();
                 }
