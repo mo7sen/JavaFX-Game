@@ -20,12 +20,12 @@ public class CharacterPicker {
         
         if(direction == 1)
         {
-            player1 = new Player(staticImage, animatedImage, projectileImage, posX, posY, root, direction, scale, windowWidth);
+            player1 = new Player(staticImage, animatedImage, projectileImage, posX, posY, root, direction, scale, windowWidth, identity);
             pC.setPlayerOne(player1);
         }
         else
         {
-            player2 = new Player(staticImage, animatedImage, projectileImage, posX, posY, root, direction, scale, windowWidth);
+            player2 = new Player(staticImage, animatedImage, projectileImage, posX, posY, root, direction, scale, windowWidth, identity);
             pC.setPlayerTwo(player2);
         }
     }

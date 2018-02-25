@@ -13,16 +13,18 @@ public class Player extends ObjectImage
     Image staticImage,                                                        
           projectileImage;                                                    
     //==========================================================================
-    String animatedImage;
+    String animatedImage, identity;
     //==========================================================================
     double posChange = 100,    //Distance between tiles / lanes  
            windowWidth,     
            windowHeight,
-           shiftSpeed = 5,     // Speed at which the player chages lanes
+           shiftSpeed = 10,     // Speed at which the player chages lanes
            scale,               // Scale of the player and the projectile with respect to the original images
-           fireRate = 0;     // delay in seconds
+           fireRate = 0.45;     // delay in seconds
     //==========================================================================
     double[] supportedY = new double[5];                                      
+    //==========================================================================
+    boolean deadInside;
     //==========================================================================
     long lastFired = 0,
          fireDelay = (long)(fireRate * 1000000000);     // converting the delay to nanoseconds
@@ -30,7 +32,7 @@ public class Player extends ObjectImage
     Group root;                 // root node
     //==========================================================================
     
-    public Player(Image staticImage, String animatedImage, Image projectileImage, double posX, double posY, Group root, int direction, double scale, double windowWidth) 
+    public Player(Image staticImage, String animatedImage, Image projectileImage, double posX, double posY, Group root, int direction, double scale, double windowWidth, String identity) 
     {
         super(staticImage, posX, posY, root);
         
@@ -43,6 +45,7 @@ public class Player extends ObjectImage
         this.staticImage = staticImage;
         this.animatedImage = animatedImage;
         this.projectileImage = projectileImage;
+        this.identity = identity;
         
         for(int i = 0; i < supportedY.length; i++)
         {
@@ -59,23 +62,33 @@ public class Player extends ObjectImage
     public void damageTaken()
     {
         health--;
-        this.hurt();
+        if (health == 0)
+        {
+            deadInside = true;
+            dead();
+        }
+        else
+        {
+                EffectManager eM = new EffectManager(this);
+                Thread t = new Thread(eM);
+                t.start();
+        }
     }
     
-    public void hurt()
+    private void dead()
     {
-        System.out.print("hurt");
+        
     }
     
-    public boolean isDeadInside()
+    public boolean isDead()
     {
-        return (health == 0);
+        return deadInside;
     }
     
     public void act()
     {
         this.setImage(new Image(animatedImage));
-        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 5, 0, root, windowWidth, scale);
+        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 10, 0, root, windowWidth, scale, identity);
     }
     
     public void shiftDown()

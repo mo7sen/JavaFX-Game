@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/GameProject.java</file>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/Player.java</file>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/Number.java</file>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/PlayerController.java</file>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/Projectiles.java</file>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/Bounder.java</file>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/ObjectImage.java</file>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/CharacterPicker.java</file>
+            <file>file:/D:/Netbeans/GameProject/src/gameproject/EffectManager.java</file>
+        </group>
     </open-files>
 </project-private>

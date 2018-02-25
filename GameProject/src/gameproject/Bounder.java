@@ -51,22 +51,19 @@ public class Bounder
         this.height = height;
     }
     
-    public boolean intersects(Bounder b)
+    public boolean collides(Bounder b)
     {
-        return  ( b.minX <= this.maxX && b.minY >= this.maxY )
-                ||
-                ( b.maxX >= this.minX && b.maxY >= this.minY )
-                ||
-                ( b.minX <= this.maxX && b.maxY >= this.minY )
-                ||
-                ( b.maxX >= this.minX && b.minY <= this.maxY );
+        return 
+               Number.surrounds(b.minX, b.maxX, this.minX, this.maxX) && Number.surrounds(b.minY, b.maxY, this.minY, this.maxY);
     }
+    
+    
  
     public boolean intersectsAny(ArrayList<Bounder> bounders)
     {
         for(int  i = 0; i < bounders.size(); i++)
         {
-            if(this.intersects(bounders.get(i)) && this != bounders.get(i))
+            if(this.collides(bounders.get(i)) && this != bounders.get(i))
                 return true;
         }
         return false;
