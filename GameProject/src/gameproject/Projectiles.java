@@ -5,7 +5,8 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 
-public class Projectiles extends ObjectImage{
+public class Projectiles extends ObjectImage
+{
     
     public static Player playerOne, playerTwo;
     public static ArrayList<Bounder> enemies = new ArrayList<>();
@@ -31,7 +32,7 @@ public class Projectiles extends ObjectImage{
     
     private void animate()
     {
-        new AnimationTimer() {
+        AnimationTimer shot = new AnimationTimer() {
             @Override
             public void handle(long now) 
             {
@@ -57,6 +58,8 @@ public class Projectiles extends ObjectImage{
                     Projectiles.this.setImage(null);
                 }
             }
-        }.start();
+        };
+        shot.start();
+        GameProject.gc.animators.add(shot);
     }
 }

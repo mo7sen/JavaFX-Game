@@ -1,5 +1,7 @@
 package gameproject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -8,7 +10,8 @@ public class Player extends ObjectImage
 {
     //==========================================================================
     int health = 4,             // Health value
-        direction;              // Direction the player is facing
+        direction,              // Direction the player is facing
+        playerNo;
     //==========================================================================
     Image staticImage,                                                        
           projectileImage;                                                    
@@ -32,11 +35,12 @@ public class Player extends ObjectImage
     Group root;                 // root node
     //==========================================================================
     
-    public Player(Image staticImage, String animatedImage, Image projectileImage, double posX, double posY, Group root, int direction, double scale, double windowWidth, String identity) 
+    public Player(Image staticImage, String animatedImage, Image projectileImage, double posX, double posY, Group root, int direction, double scale, double windowWidth, String identity, int playerNo) 
     {
         super(staticImage, posX, posY, root);
         
         this.windowWidth = windowWidth;
+        this.playerNo = playerNo;
         this.root = root;
         this.direction = direction;
         this.scale = scale;
@@ -77,7 +81,7 @@ public class Player extends ObjectImage
     
     private void dead()
     {
-        
+        GameProject.gc.endGame(playerNo);
     }
     
     public boolean isDead()
@@ -93,55 +97,55 @@ public class Player extends ObjectImage
     
     public void shiftDown()
     {
-        int i;
-        for(i = 0; i < supportedY.length; i++)
-        {
-            if(supportedY[i] == yy && i < supportedY.length - 1)
+        if(!GameController.paused)
+            for(int i = 0; i < supportedY.length; i++)
             {
-                double nextY = supportedY[i+1];
-                new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        double y = yy;
-                        if(y < nextY) 
-                        {
-                            Player.this.changeY(shiftSpeed);
+                if(supportedY[i] == yy && i < supportedY.length - 1)
+                {
+                    double nextY = supportedY[i+1];
+                    new AnimationTimer() {
+                        @Override
+                        public void handle(long now) {
+                            double y = yy;
+                            if(y < nextY) 
+                            {
+                                Player.this.changeY(shiftSpeed);
+                            }
+                            else if(y == nextY) 
+                            {
+                            this.stop() ;
+                           } 
                         }
-                        else if(y == nextY) 
-                        {
-                        this.stop() ;
-                       } 
-                    }
-                }.start();
-                break;
-            }         
-        }
+                    }.start();
+                    break;
+                }         
+            }
     }
     
     public void shiftUp()
     {
-        
-        for(int i = 0; i < supportedY.length; i++)
-        {
-            if(supportedY[i] == yy && i > 0)
+        if(!GameController.paused)
+            for(int i = 0; i < supportedY.length; i++)
             {
-                double nextY = supportedY[i-1];
-                new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        double y = yy;
-                        if(y > nextY) 
-                        {
-                            Player.this.changeY(-shiftSpeed);
+                if(supportedY[i] == yy && i > 0)
+                {
+                    double nextY = supportedY[i-1];
+                    new AnimationTimer() {
+                        @Override
+                        public void handle(long now) {
+                            double y = yy;
+                            if(y > nextY) 
+                            {
+                                Player.this.changeY(-shiftSpeed);
+                            }
+                            else if(y == nextY) 
+                            {
+                                this. stop() ;
+                            } 
                         }
-                        else if(y == nextY) 
-                        {
-                            this. stop() ;
-                        } 
-                    }
-                }.start();
-                break;
-            }          
-        }
+                    }.start();
+                    break;
+                }          
+            }
     } 
 }

@@ -3,7 +3,8 @@ package gameproject;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 
-public class CharacterPicker {
+public class CharacterPicker 
+{
     public static Player player1 = null;
     public static Player player2 = null;
     
@@ -20,12 +21,12 @@ public class CharacterPicker {
         
         if(direction == 1)
         {
-            player1 = new Player(staticImage, animatedImage, projectileImage, posX, posY, root, direction, scale, windowWidth, identity);
+            player1 = new Player(staticImage, animatedImage, projectileImage, posX, posY, root, direction, scale, windowWidth, identity,1);
             pC.setPlayerOne(player1);
         }
         else
         {
-            player2 = new Player(staticImage, animatedImage, projectileImage, posX, posY, root, direction, scale, windowWidth, identity);
+            player2 = new Player(staticImage, animatedImage, projectileImage, posX, posY, root, direction, scale, windowWidth, identity,2);
             pC.setPlayerTwo(player2);
         }
     }

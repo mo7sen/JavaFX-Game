@@ -1,5 +1,7 @@
 package gameproject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -14,7 +16,8 @@ public class PlayerController
     {
         this.scene = scene;
         
-        new AnimationTimer() {
+        AnimationTimer firing = new AnimationTimer() {
+            
             @Override
             public void handle(long now) 
             {
@@ -34,8 +37,10 @@ public class PlayerController
                         playerTwo.lastFired = now;
                     }
                 }
+                
             }
-        }.start();   
+        };
+        GameProject.gc.animators.add(firing);
     }
 
     public void setPlayerOne(Player playerOne)
@@ -75,6 +80,21 @@ public class PlayerController
                     if(event. getCode() == KeyCode. G) 
                 	firing2 = true;
                 } 
+                
+                
+                    if(event.getCode() == KeyCode.I)
+                    {
+                        GameProject.gc.pause();
+                        System.out.println("paused");
+                    }
+                    
+                    if(event.getCode() == KeyCode.O)
+                    {
+                        GameProject.gc.resume();
+                        System.out.println("resumed");
+                    }
+                
+                    
        
             });
             
@@ -85,5 +105,17 @@ public class PlayerController
             if(event.getCode() == KeyCode.G)
                 firing2 = false;
         });
+    }
+    
+    public void destroy()
+    {
+        scene.setOnKeyPressed((event) -> 
+        {
+            if(event.getCode() == KeyCode.SPACE)
+                new GameProject().reset();
+        });
+        scene.setOnKeyReleased(null);
+        firing1 = false;
+        firing2 = false;
     }
 }
