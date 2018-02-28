@@ -21,7 +21,7 @@ public class Player extends ObjectImage
     double posChange = 100,    //Distance between tiles / lanes  
            windowWidth,     
            windowHeight,
-           shiftSpeed = 10,     // Speed at which the player chages lanes
+           shiftSpeed = 5,     // Speed at which the player chages lanes
            scale,               // Scale of the player and the projectile with respect to the original images
            fireRate = 0.45;     // delay in seconds
     //==========================================================================
@@ -92,7 +92,7 @@ public class Player extends ObjectImage
     public void act()
     {
         this.setImage(new Image(animatedImage));
-        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 10, 0, root, windowWidth, scale, identity);
+        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 5, 0, root, windowWidth, scale, identity);
     }
     
     public void shiftDown()

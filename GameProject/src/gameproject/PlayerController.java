@@ -82,17 +82,7 @@ public class PlayerController
                 } 
                 
                 
-                    if(event.getCode() == KeyCode.I)
-                    {
-                        GameProject.gc.pause();
-                        System.out.println("paused");
-                    }
                     
-                    if(event.getCode() == KeyCode.O)
-                    {
-                        GameProject.gc.resume();
-                        System.out.println("resumed");
-                    }
                 
                     
        
@@ -104,6 +94,20 @@ public class PlayerController
                 firing1 = false;
             if(event.getCode() == KeyCode.G)
                 firing2 = false;
+            
+            if(event.getCode() == KeyCode.ESCAPE && !GameController.paused)
+                    {
+                        GameProject.gc.pause();
+                        GameProject.pauseMenu.expand();
+                        System.out.println("paused");
+                    }
+                    
+            else if(event.getCode() == KeyCode.ESCAPE && GameController.paused)
+                    {
+                        GameProject.gc.resume();
+                        GameProject.pauseMenu.collapse();
+                        System.out.println("resumed");
+                    }
         });
     }
     

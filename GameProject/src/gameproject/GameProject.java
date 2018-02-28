@@ -15,6 +15,7 @@ public class GameProject extends Application
     
     static GameController gc;
     static PlayerController pC;
+    static Menu pauseMenu;
     
     @Override
     public void start(Stage primaryStage) 
@@ -23,9 +24,12 @@ public class GameProject extends Application
         gc = new GameController(root);
         Scene scene = new Scene(root, windowWidth, windowHeight);
     	pC = new PlayerController(scene);
-        new CharacterPicker(root, windowWidth, windowHeight, "red", 1, pC);
-        new CharacterPicker(root, windowWidth, windowHeight, "blue", -1, pC);
+        new CharacterPicker(root, windowWidth, windowHeight, "blue", 1, pC);
+        new CharacterPicker(root, windowWidth, windowHeight, "red", -1, pC);
         pC.setControls();
+        
+        pauseMenu = new Menu("PauseMenu", root,windowWidth, windowHeight);
+        
         stage = primaryStage;
         
         GameProject.gc.resume();
