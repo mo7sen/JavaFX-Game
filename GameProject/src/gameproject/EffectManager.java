@@ -6,9 +6,9 @@ import javafx.scene.effect.BlendMode;
 
 public class EffectManager implements Runnable
 {
-    Player p;
+    ObjectImage p;
     
-    public EffectManager(Player p)
+    public EffectManager(ObjectImage p)
     {
         this.p = p;
     }

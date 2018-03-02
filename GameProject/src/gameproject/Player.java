@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 public class Player extends ObjectImage
 {
     //==========================================================================
+    Healthbar healthBar;
+    //==========================================================================
     int health = 4,             // Health value
         direction,              // Direction the player is facing
         playerNo;
@@ -21,11 +23,11 @@ public class Player extends ObjectImage
     double posChange = 100,    //Distance between tiles / lanes  
            windowWidth,     
            windowHeight,
-           shiftSpeed = 5,     // Speed at which the player chages lanes
+           shiftSpeed = 10,     // Speed at which the player chages lanes
            scale,               // Scale of the player and the projectile with respect to the original images
            fireRate = 0.45;     // delay in seconds
     //==========================================================================
-    double[] supportedY = new double[5];                                      
+    static double[] supportedY = new double[4];                                      
     //==========================================================================
     boolean deadInside;
     //==========================================================================
@@ -51,9 +53,12 @@ public class Player extends ObjectImage
         this.projectileImage = projectileImage;
         this.identity = identity;
         
+        healthBar = new Healthbar(posX , root, (direction==1)?"left":"right");
+        healthBar.updateHealth(health);
+        
         for(int i = 0; i < supportedY.length; i++)
         {
-            int j = i-2;
+            int j = i-1;
             supportedY[i] = posY + posChange * j;
         }
     }
@@ -65,7 +70,7 @@ public class Player extends ObjectImage
     
     public void damageTaken()
     {
-        health--;
+        healthBar.updateHealth(--health);
         if (health == 0)
         {
             deadInside = true;
@@ -92,7 +97,7 @@ public class Player extends ObjectImage
     public void act()
     {
         this.setImage(new Image(animatedImage));
-        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 5, 0, root, windowWidth, scale, identity);
+        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 10, 0, root, windowWidth, scale, identity);
     }
     
     public void shiftDown()

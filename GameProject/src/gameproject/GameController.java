@@ -16,11 +16,13 @@ public class GameController
     public GameController(Group root)
     {
         this.root = root;
-        ImageView iV = new ImageView(new Image("tile.png"));
+        ImageView iV = new ImageView(new Image("tile3.png"));
         iV.setScaleX(2);
         iV.setScaleY(2);
-        root.getChildren().add(iV);
-        this.root.getChildren().add(stackPane);
+        iV.setX(100);
+        iV.setY(150);
+        
+        this.root.getChildren().add(iV);
     }
     
     public void endGame(int i)

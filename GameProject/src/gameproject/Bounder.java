@@ -68,4 +68,9 @@ public class Bounder
         }
         return false;
     }
+    
+    public void destroy()
+    {
+        minX = maxX = minY = maxY = width = height = -1;
+    }
 }

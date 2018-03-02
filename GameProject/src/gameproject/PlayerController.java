@@ -99,6 +99,7 @@ public class PlayerController
                     {
                         GameProject.gc.pause();
                         GameProject.pauseMenu.expand();
+                        GameProject.pauseMenu.pause.toFront();
                         System.out.println("paused");
                     }
                     

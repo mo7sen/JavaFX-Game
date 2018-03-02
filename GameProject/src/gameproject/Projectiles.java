@@ -42,23 +42,33 @@ public class Projectiles extends ObjectImage
                 if(Projectiles.this.getX() > windowWidth || Projectiles.this.getX() < -50 )
                 {
                     this.stop();
+                    Projectiles.this.setImage(null);
                 }
                 
-                if(Projectiles.this.bound.collides(playerTwo.bound) && (playerTwo.identity != Projectiles.this.identity))
+                if((playerTwo != null) && Projectiles.this.bound.collides(playerTwo.bound) && (playerTwo.identity != Projectiles.this.identity))
                 {
+                    this.stop();
                     playerTwo.damageTaken();
-                    this.stop();
                     Projectiles.this.setImage(null);
                 }
-                
-                if(Projectiles.this.bound.collides(playerOne.bound) && (playerOne.identity!=Projectiles.this.identity))
+                else if((playerOne != null) && Projectiles.this.bound.collides(playerOne.bound) && (playerOne.identity!=Projectiles.this.identity))
                 {
-                    playerOne.damageTaken();
                     this.stop();
+                    playerOne.damageTaken();
                     Projectiles.this.setImage(null);
                 }
+                else if(playerTwo == null)
+                    for(Enemy ene: GameProject.npcM.enemies)
+                        if(Projectiles.this.bound.collides(ene.bound))
+                        {
+                            this.stop();
+                            ene.damageTaken();
+                            Projectiles.this.setImage(null);
+                            break;
+                        }
             }
         };
+        
         shot.start();
         GameProject.gc.animators.add(shot);
     }

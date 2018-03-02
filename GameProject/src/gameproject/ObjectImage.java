@@ -1,6 +1,5 @@
 package gameproject;
 
-import javafx.geometry.BoundingBox;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,5 +43,10 @@ public class ObjectImage extends ImageView
         yy += changeAmount;
         bound.setY(yy);
         this.setY(yy);
+    }
+    
+    public void destroyBounds()
+    {
+        this.bound = null;
     }
 }

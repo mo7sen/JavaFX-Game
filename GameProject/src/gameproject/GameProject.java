@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class GameProject extends Application 
 {
     double speed = 10;
-    double windowWidth = 1000,
+    static double windowWidth = 1000,
             windowHeight = 600;
     
     static Stage stage;
@@ -16,16 +16,20 @@ public class GameProject extends Application
     static GameController gc;
     static PlayerController pC;
     static Menu pauseMenu;
+    static NPCManager npcM;
+    static Scene scene;
+    static Group root;
     
     @Override
     public void start(Stage primaryStage) 
     {
-        Group root = new Group();
+        stage = primaryStage;
+        root = new Group();
+        npcM = new NPCManager();
         gc = new GameController(root);
-        Scene scene = new Scene(root, windowWidth, windowHeight);
+        scene = new Scene(root, windowWidth, windowHeight);
     	pC = new PlayerController(scene);
-        new CharacterPicker(root, windowWidth, windowHeight, "blue", 1, pC);
-        new CharacterPicker(root, windowWidth, windowHeight, "red", -1, pC);
+        new GameModePicker("singlePlayer");
         pC.setControls();
         
         pauseMenu = new Menu("PauseMenu", root,windowWidth, windowHeight);
