@@ -12,9 +12,11 @@ public class Enemy extends ObjectImage
     double speed = 1;
     boolean dead = false;
     
-    public Enemy(Image image, double posX, double posY, Group root) 
+    public Enemy(Image image, double posX, double posY, Group root, double scale) 
     {
         super(image, posX, posY, root);
+        this.setScaleX(scale);
+        this.setScaleY(scale);
         index = GameProject.npcM.enemies.size();
         
         GameProject.npcM.enemies.add(this);
@@ -28,6 +30,13 @@ public class Enemy extends ObjectImage
             public void handle(long now) 
             {
                 Enemy.this.changeX(-speed);
+                if(Enemy.this.xx < -40 || Enemy.this.bound.collides(CharacterPicker.player1.bound))
+                {
+                    this.stop();
+                    CharacterPicker.player1.damageTaken();
+                    Enemy.this.bound.destroy();
+                    Enemy.this.setImage(null);
+                }
             }
         };
         GameProject.gc.animators.add(enemyMoving);

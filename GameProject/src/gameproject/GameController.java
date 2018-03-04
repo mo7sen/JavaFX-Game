@@ -16,10 +16,10 @@ public class GameController
     public GameController(Group root)
     {
         this.root = root;
-        ImageView iV = new ImageView(new Image("tile3.png"));
+        ImageView iV = new ImageView(new Image("background.png"));
         iV.setScaleX(2);
         iV.setScaleY(2);
-        iV.setX(100);
+        iV.setX(250);
         iV.setY(150);
         
         this.root.getChildren().add(iV);
@@ -27,6 +27,7 @@ public class GameController
     
     public void endGame(int i)
     {
+        pause();
         if( i == 1 )
         {
             playerOneWon();

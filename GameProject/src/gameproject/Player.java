@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 
 public class Player extends ObjectImage
@@ -27,7 +28,7 @@ public class Player extends ObjectImage
            scale,               // Scale of the player and the projectile with respect to the original images
            fireRate = 0.45;     // delay in seconds
     //==========================================================================
-    static double[] supportedY = new double[4];                                      
+    static double[] supportedY = new double[]{190,270,370,480};                                      
     //==========================================================================
     boolean deadInside;
     //==========================================================================
@@ -47,6 +48,7 @@ public class Player extends ObjectImage
         this.direction = direction;
         this.scale = scale;
         this.setScaleX(direction * scale) ;
+        this.setBlendMode(null);
         this.setScaleY(scale);
         this.staticImage = staticImage;
         this.animatedImage = animatedImage;
@@ -56,11 +58,11 @@ public class Player extends ObjectImage
         healthBar = new Healthbar(posX , root, (direction==1)?"left":"right");
         healthBar.updateHealth(health);
         
-        for(int i = 0; i < supportedY.length; i++)
-        {
-            int j = i-1;
-            supportedY[i] = posY + posChange * j;
-        }
+//        for(int i = 0; i < supportedY.length; i++)
+//        {
+//            int j = i-1;
+//            supportedY[i] = posY + posChange * j;
+//        }
     }
     
     public int getHealth()
@@ -97,7 +99,7 @@ public class Player extends ObjectImage
     public void act()
     {
         this.setImage(new Image(animatedImage));
-        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 10, 0, root, windowWidth, scale, identity);
+        new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 15, 0, root, windowWidth, scale, identity);
     }
     
     public void shiftDown()

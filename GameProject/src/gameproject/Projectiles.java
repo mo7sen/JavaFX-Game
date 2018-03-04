@@ -3,6 +3,7 @@ package gameproject;
 import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 
 public class Projectiles extends ObjectImage
@@ -25,6 +26,7 @@ public class Projectiles extends ObjectImage
         this.identity = identity;
         
         Projectiles.this.setScaleY(scale);
+        this.setBlendMode(null);
         Projectiles.this.setScaleX(scale * directionX);
         
         this.animate();
