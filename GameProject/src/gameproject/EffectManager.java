@@ -7,12 +7,12 @@ import javafx.scene.effect.BlendMode;
 public class EffectManager implements Runnable
 {
     ObjectImage p;
-    
+
     public EffectManager(ObjectImage p)
     {
         this.p = p;
     }
-    
+
     public void hurt()
     {
         try {
@@ -29,7 +29,7 @@ public class EffectManager implements Runnable
     }
 
     @Override
-    public void run() 
+    public void run()
     {
         hurt();
     }

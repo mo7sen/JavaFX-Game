@@ -16,19 +16,19 @@ public class Player extends ObjectImage
         direction,              // Direction the player is facing
         playerNo;
     //==========================================================================
-    Image staticImage,                                                        
-          projectileImage;                                                    
+    Image staticImage,
+          projectileImage;
     //==========================================================================
     String animatedImage, identity;
     //==========================================================================
-    double posChange = 100,    //Distance between tiles / lanes  
-           windowWidth,     
+    double posChange = 100,    //Distance between tiles / lanes
+           windowWidth,
            windowHeight,
            shiftSpeed = 10,     // Speed at which the player chages lanes
            scale,               // Scale of the player and the projectile with respect to the original images
            fireRate = 0.45;     // delay in seconds
     //==========================================================================
-    static double[] supportedY = new double[]{190,270,370,480};                                      
+    static double[] supportedY = new double[]{190,270,370,480};
     //==========================================================================
     boolean deadInside;
     //==========================================================================
@@ -37,11 +37,11 @@ public class Player extends ObjectImage
     //==========================================================================
     Group root;                 // root node
     //==========================================================================
-    
-    public Player(Image staticImage, String animatedImage, Image projectileImage, double posX, double posY, Group root, int direction, double scale, double windowWidth, String identity, int playerNo) 
+
+    public Player(Image staticImage, String animatedImage, Image projectileImage, double posX, double posY, Group root, int direction, double scale, double windowWidth, String identity, int playerNo)
     {
         super(staticImage, posX, posY, root);
-        
+
         this.windowWidth = windowWidth;
         this.playerNo = playerNo;
         this.root = root;
@@ -54,22 +54,22 @@ public class Player extends ObjectImage
         this.animatedImage = animatedImage;
         this.projectileImage = projectileImage;
         this.identity = identity;
-        
+
         healthBar = new Healthbar(posX , root, (direction==1)?"left":"right");
         healthBar.updateHealth(health);
-        
+
 //        for(int i = 0; i < supportedY.length; i++)
 //        {
 //            int j = i-1;
 //            supportedY[i] = posY + posChange * j;
 //        }
     }
-    
+
     public int getHealth()
     {
         return health;
     }
-    
+
     public void damageTaken()
     {
         healthBar.updateHealth(--health);
@@ -85,23 +85,23 @@ public class Player extends ObjectImage
                 t.start();
         }
     }
-    
+
     private void dead()
     {
-        GameProject.gc.endGame(playerNo);
+        SceneMaker.gc.endGame(playerNo);
     }
-    
+
     public boolean isDead()
     {
         return deadInside;
     }
-    
+
     public void act()
     {
         this.setImage(new Image(animatedImage));
         new Projectiles(projectileImage, xx, yy, direction, 0, 15, 0, 15, 0, root, windowWidth, scale, identity);
     }
-    
+
     public void shiftDown()
     {
         if(!GameController.paused)
@@ -114,21 +114,21 @@ public class Player extends ObjectImage
                         @Override
                         public void handle(long now) {
                             double y = yy;
-                            if(y < nextY) 
+                            if(y < nextY)
                             {
                                 Player.this.changeY(shiftSpeed);
                             }
-                            else if(y == nextY) 
+                            else if(y == nextY)
                             {
                             this.stop() ;
-                           } 
+                           }
                         }
                     }.start();
                     break;
-                }         
+                }
             }
     }
-    
+
     public void shiftUp()
     {
         if(!GameController.paused)
@@ -141,18 +141,18 @@ public class Player extends ObjectImage
                         @Override
                         public void handle(long now) {
                             double y = yy;
-                            if(y > nextY) 
+                            if(y > nextY)
                             {
                                 Player.this.changeY(-shiftSpeed);
                             }
-                            else if(y == nextY) 
+                            else if(y == nextY)
                             {
                                 this. stop() ;
-                            } 
+                            }
                         }
                     }.start();
                     break;
-                }          
+                }
             }
-    } 
+    }
 }
